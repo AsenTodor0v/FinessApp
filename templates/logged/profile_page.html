@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<h2>Welcome, {{ profile.full_name }}!</h2>
+<p>Email: {{ user.email }}</p>
+<p>Bio: {{ profile.bio }}</p>
+<p>role: {{ profile.role }}</p>
+{% if profile.profile_picture %}
+    <img src="{{ user.profile.profile_picture }}" alt="Profile Picture" class="img-thumbnail" width="150">
+{% endif %}
+<a href="{% url 'edit-profile' %}" class="btn btn-primary mt-3">Edit Profile</a>
+<a href="{% url 'delete-profile' %}" class="btn btn-danger mt-3">Delete Profile</a>
+
+<h3>Your Meal Plans</h3>
+{% if posts %}
+    <ul>
+        {% for post in posts %}
+            <li>
+                <a href="#">{{ post.title }}</a>
+                <!-- Edit and Delete Buttons for Meal Plan -->
+                <a href="#" class="btn btn-warning btn-sm ml-2">Edit</a>
+                <form action="#" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm ml-2">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No meal plans created yet.</p>
+{% endif %}
+
+{% endblock %}

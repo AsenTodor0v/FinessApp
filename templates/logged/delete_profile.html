@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Delete Profile{% endblock %}
+
+{% block content %}
+<div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Are you sure you want to delete your profile?</h4>
+    <p>This action is irreversible. Once you delete your profile, all your data, including posts and comments, will be permanently deleted.</p>
+    <hr>
+    <p class="mb-0">Please confirm your decision below.</p>
+</div>
+
+<form method="POST" action="{% url 'delete-profile' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete My Profile</button>
+    <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

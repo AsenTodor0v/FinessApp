@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Create New Meal Plan{% endblock %}
+{% block content %}
+    <h2>Create a New Meal Plan</h2>
+
+    <!-- Form for creating a meal plan -->
+    <form method="POST" enctype="multipart/form-data" action="{% url 'create-meal' %}">
+        {% csrf_token %}
+
+        <!-- Title of the Meal Plan -->
+        <div class="mb-3">
+            <label for="id_title" class="form-label">Meal Plan Title</label>
+            <input type="text" class="form-control" id="id_title" name="title" required>
+        </div>
+
+        <!-- Description of the Meal Plan -->
+        <div class="mb-3">
+            <label for="id_description" class="form-label">Meal Plan Description</label>
+            <textarea class="form-control" id="id_description" name="description" rows="5" required></textarea>
+        </div>
+
+        <!-- Upload Image -->
+        <div class="mb-3">
+            <label for="id_image" class="form-label">Meal Plan Image</label>
+            <input type="file" class="form-control" id="id_image" name="image" accept="image/*">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success">Submit Meal Plan</button>
+    </form>
+{% endblock %}
