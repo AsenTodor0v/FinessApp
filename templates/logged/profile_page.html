@@ -1,33 +1,53 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-<h2>Welcome, {{ profile.full_name }}!</h2>
-<p>Email: {{ user.email }}</p>
-<p>Bio: {{ profile.bio }}</p>
-<p>role: {{ profile.role }}</p>
-{% if profile.profile_picture %}
-    <img src="{{ user.profile.profile_picture }}" alt="Profile Picture" class="img-thumbnail" width="150">
-{% endif %}
-<a href="{% url 'edit-profile' %}" class="btn btn-primary mt-3">Edit Profile</a>
-<a href="{% url 'delete-profile' %}" class="btn btn-danger mt-3">Delete Profile</a>
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-body text-center">
+             {% if user.profile.profile_picture %}
+                <img
+                    src="{{ user.profile.profile_picture.url }}"
+                    alt="Profile Picture"
+                    class="rounded-circle mb-3"
+                    style="width: 150px; height: 150px; object-fit: cover; border: 2px solid #ddd;">
+            {% else %}
+                <img
+                    src="{% static 'default_profile.jpg' %}"
+                    alt="Default Profile Picture"
+                    class="rounded-circle mb-3"
+                    style="width: 150px; height: 150px; object-fit: cover; border: 2px solid #ddd;">
+            {% endif %}
+            <h2 class="card-title">Welcome, {{ user.username }}!</h2>
+            <p class="card-text text-muted">Name: {{ profile.full_name }}</p>
+            <p class="card-text text-muted">Email: {{ user.email }}</p>
+            <p class="card-text text-muted">Role: {{ profile.role }}</p>
+            <p class="card-text text-muted">Bio: {{ profile.bio }}</p>
 
-<h3>Your Meal Plans</h3>
-{% if posts %}
-    <ul>
-        {% for post in posts %}
-            <li>
-                <a href="#">{{ post.title }}</a>
-                <!-- Edit and Delete Buttons for Meal Plan -->
-                <a href="#" class="btn btn-warning btn-sm ml-2">Edit</a>
-                <form action="#" method="POST" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-sm ml-2">Delete</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No meal plans created yet.</p>
-{% endif %}
+            <hr>
 
+            <a href="{% url 'create-meal' %}" class="btn btn-outline-primary btn-lg mb-3">
+                <i class="fas fa-plus-circle"></i> Create New Meal Plan
+            </a>
+
+             <div class="d-flex justify-content-center mt-3">
+                <a href="{% url 'my-meals' %}" class="btn btn-success btn-lg mb-3">
+                    <i class="fas fa-utensils"></i> View Your Meal Plans
+                </a>
+            </div>
+
+
+            <a href="{% url 'edit-profile' %}" class="btn btn-warning btn-lg mb-3">
+                <i class="fas fa-edit"></i> Edit Profile
+            </a>
+
+            <!-- Delete Profile Button (with confirmation) -->
+            <form action="{% url 'delete-profile' %}" method="POST" style="display: inline-block;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-lg mb-3" onclick="return confirm('Are you sure you want to delete your profile? This action is permanent.')">
+                    <i class="fas fa-trash-alt"></i> Delete Profile
+                </button>
+        </div>
+    </div>
+</div>
 {% endblock %}

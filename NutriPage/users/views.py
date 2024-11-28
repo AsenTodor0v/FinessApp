@@ -4,17 +4,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, DetailView
+from django.views.generic import UpdateView, DetailView, ListView
 
+from NutriPage.meals.models import MealPlan
 from NutriPage.users.forms import DetailUserForm, EditUserForm, DeleteProfileForm, ProfileForm
 from NutriPage.users.models import Profile
 
 UserModel = get_user_model()
 
 class ProfileView(LoginRequiredMixin,DetailView):
-    template_name = 'logged/profile_page.html'
     model = Profile
-    form_class = DetailUserForm
+    template_name = 'logged/profile_page.html'
 
     def get_object(self, queryset=None):
         return Profile.objects.first()
