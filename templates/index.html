@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Meal Plans{% endblock %}
 
 {% block content %}
@@ -10,14 +11,14 @@
             <div class="col-md-4 mb-4">
                 <div class="card">
                     {% if mealplan.picture %}
-                        <img src="{{ mealplan.picture.url }}" class="card-img-top" alt="{{ mealplan.title }}">
+                        <img src="{{ mealplan.picture.url }}" class="card-img-top fixed-image" alt="{{ mealplan.title }}">
                     {% else %}
-                        <img src="https://via.placeholder.com/350x200.png?text=No+Image" class="card-img-top" alt="No Image Available">
+                        <img src="{% static 'images/no-image.jpg' %}" class="card-img-top fixed-image" alt="No Image Available">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ mealplan.title }}</h5>
                         <p class="card-text">{{ mealplan.description|truncatewords:20 }}</p>
-                        <a href="#" class="btn btn-primary">View Details</a>
+                        <a href="{% url 'details-meal' pk=mealplan.pk %}" class="btn btn-primary">View Details</a>
                     </div>
                     <div class="card-footer text-muted">
                         Created by: {{ mealplan.author.user.username }}

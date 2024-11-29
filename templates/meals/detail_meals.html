@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}{{ mealplan.title }}{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <!-- Meal Plan Title -->
+    <h1 class="display-4">{{ mealplan.title }}</h1>
+
+    <!-- Meal Plan Image -->
+    <div class="my-4">
+        {% if mealplan.picture %}
+            <img src="{{ mealplan.picture.url }}" alt="{{ mealplan.title }}" class="img-fluid rounded shadow">
+        {% else %}
+            <p><em>No image available for this meal plan.</em></p>
+        {% endif %}
+    </div>
+
+    <!-- Meal Plan Description -->
+    <p class="lead"><strong>Description:</strong> {{ mealplan.description }}</p>
+
+    <!-- Meal Author and Date Created -->
+    <p><strong>Author:</strong> {{ mealplan.author.user.username }}</p>
+    <p><strong>Created At:</strong> {{ mealplan.created_at|date:"F j, Y, H:i" }}</p>
+
+    <!-- Edit and Delete buttons (if the user is the author) -->
+    {% if user.profile == mealplan.author %}
+        <div class="mt-3">
+            <a href="{% url 'edit-meal' mealplan.id %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'delete-meal' mealplan.id %}" class="btn btn-danger">Delete</a>
+        </div>
+    {% endif %}
+
+    <hr>
+
+    <!-- Meal Plan Ingredients (Example section) -->
+    <h4 class="mt-4">Ingredients</h4>
+    <ul class="list-group">
+        {% for ingredient in mealplan.ingredients.all %}
+            <li class="list-group-item">{{ ingredient.name }} - {{ ingredient.amount }}</li>
+        {% empty %}
+            <li class="list-group-item">No ingredients listed.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Meal Preparation Steps (Example section) -->
+    <h4 class="mt-4">Preparation Steps</h4>
+    <ol class="list-group">
+        {% for step in mealplan.steps.all %}
+            <li class="list-group-item">{{ step.step_number }}. {{ step.description }}</li>
+        {% empty %}
+            <li class="list-group-item">No preparation steps listed.</li>
+        {% endfor %}
+    </ol>
+
+    <hr>
+
+    <!-- Comments Section -->
+    <h3>Comments</h3>
+    {% if mealplan.comments.all %}
+        <ul class="list-group">
+            {% for comment in mealplan.comments.all %}
+                <li class="list-group-item">
+                    <strong>{{ comment.author }}:</strong> {{ comment.text }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Comment Form -->
+    <h4>Leave a Comment</h4>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_text">Comment</label>
+            <textarea name="text" id="id_text" class="form-control" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+    </form>
+</div>
+{% endblock %}
