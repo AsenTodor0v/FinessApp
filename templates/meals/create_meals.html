@@ -1,31 +1,62 @@
 {% extends "base.html" %}
-{% block title %}Create New Meal Plan{% endblock %}
-{% block content %}
-    <h2>Create a New Meal Plan</h2>
+{% block title %}Create a New Meal{% endblock %}
 
-    <!-- Form for creating a meal plan -->
-    <form method="POST" enctype="multipart/form-data" action="{% url 'create-meal' %}">
+{% block content %}
+<div class="container mt-4">
+    <h1 class="display-4">Create a New Meal</h1>
+    <p class="lead">Fill out the details below to create a new meal plan.</p>
+    <hr>
+
+    <!-- Display form errors -->
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>There were errors with your submission:</strong>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Meal Creation Form -->
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <!-- Title of the Meal Plan -->
-        <div class="mb-3">
-            <label for="id_title" class="form-label">Meal Plan Title</label>
-            <input type="text" class="form-control" id="id_title" name="title" required>
+        <!-- Title Field -->
+        <div class="form-group">
+            <label for="id_title">Title</label>
+            <input type="text" name="title" id="id_title" class="form-control" placeholder="Enter the meal title" value="{{ form.title.value|default_if_none:'' }}">
         </div>
 
-        <!-- Description of the Meal Plan -->
-        <div class="mb-3">
-            <label for="id_description" class="form-label">Meal Plan Description</label>
-            <textarea class="form-control" id="id_description" name="description" rows="5" required></textarea>
+        <!-- Description Field -->
+        <div class="form-group">
+            <label for="id_description">Description</label>
+            <textarea name="description" id="id_description" class="form-control" rows="3" placeholder="Provide a short description">{{ form.description.value|default_if_none:'' }}</textarea>
         </div>
 
-        <!-- Upload Image -->
-        <div class="mb-3">
-            <label for="id_picture" >Meal Plan Image</label>
-            <input type="file" class="form-control" id="id_picture" name="picture" accept="image/*">
+        <!-- Ingredients Field -->
+        <div class="form-group">
+            <label for="id_ingredients">Ingredients</label>
+            <textarea name="ingredients" id="id_ingredients" class="form-control" rows="4" placeholder="List the ingredients separated by commas">{{ form.ingredients.value|default_if_none:'' }}</textarea>
+            <small class="form-text text-muted">Example: 1 cup flour, 2 eggs, 1/2 cup sugar</small>
+        </div>
+
+        <!-- Steps Field -->
+        <div class="form-group">
+            <label for="id_steps">Preparation Steps</label>
+            <textarea name="steps" id="id_steps" class="form-control" rows="6" placeholder="Describe the preparation steps, one step per line">{{ form.steps.value|default_if_none:'' }}</textarea>
+            <small class="form-text text-muted">Use full sentences and describe each step clearly.</small>
+        </div>
+
+        <!-- Picture Upload -->
+        <div class="form-group">
+            <label for="id_picture">Upload a Picture (optional)</label>
+            <input type="file" name="picture" id="id_picture" class="form-control-file">
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-success">Submit Meal Plan</button>
+        <button type="submit" class="btn btn-primary mt-3">Create Meal</button>
     </form>
+</div>
 {% endblock %}
