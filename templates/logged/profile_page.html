@@ -5,9 +5,9 @@
 <div class="container my-4">
     <div class="card shadow-sm">
         <div class="card-body text-center">
-             {% if user.profile.profile_picture %}
+             {% if profile.profile_picture %}
                 <img
-                    src="{{ user.profile.profile_picture.url }}"
+                    src="{{ profile.profile_picture.url }}"
                     alt="Profile Picture"
                     class="rounded-circle mb-3"
                     style="width: 150px; height: 150px; object-fit: cover; border: 2px solid #ddd;">
