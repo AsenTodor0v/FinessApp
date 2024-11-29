@@ -1,0 +1,8 @@
+<style>
+    /* Make the comment text area smaller */
+    #id_text {
+        width: 100%;  /* Adjust width to 100% of its container */
+        max-width: 500px; /* Set a maximum width */
+        height: 80px;  /* Adjust height */
+    }
+</style>
