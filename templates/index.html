@@ -1,17 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Meal Plans{% endblock %}
+
 {% block content %}
-<h2>Welcome to the Fitness App</h2>
-<p>Discover meal plans and connect with certified nutritionists and fitness coaches.</p>
-<div>
-    {% for post in posts %}
-        <div class="card my-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text">{{ post.description|truncatewords:20 }}</p>
-                <a href="#" class="btn btn-primary">Read More</a>
+    <h2>Welcome to the Meal Plans</h2>
+    <p>Browse through a selection of meal plans created by certified nutritionists and fitness coaches.</p>
+
+    <div class="row">
+        {% for mealplan in mealplans %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    {% if mealplan.picture %}
+                        <img src="{{ mealplan.picture.url }}" class="card-img-top" alt="{{ mealplan.title }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/350x200.png?text=No+Image" class="card-img-top" alt="No Image Available">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ mealplan.title }}</h5>
+                        <p class="card-text">{{ mealplan.description|truncatewords:20 }}</p>
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Created by: {{ mealplan.author.user.username }}
+                    </div>
+                </div>
             </div>
-        </div>
-    {% endfor %}
-</div>
+        {% empty %}
+            <p>No meal plans available at the moment.</p>
+        {% endfor %}
+    </div>
+
 {% endblock %}

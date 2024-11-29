@@ -10,4 +10,4 @@ from NutriPage.meals.models import MealPlan
 class HomepageView(ListView):
     template_name = 'index.html'
     model = MealPlan
-    context_object_name = 'posts'
+    context_object_name = 'mealplans'

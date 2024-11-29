@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Your Meal Plans{% endblock %}
+{% block content %}
+<h2>Your Meal Plans</h2>
+{% if mealplans %}
+    <div class="row">
+        {% for mealplan in mealplans %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    {% if mealplan.picture %}
+                        <img src="{{ mealplan.picture.url }}" class="card-img-top" alt="{{ mealplan.title }}">
+                    {% else %}
+                        <img src="{% static 'default_mealplan.jpg' %}" class="card-img-top" alt="Default Image">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ mealplan.title }}</h5>
+                        <p class="card-text">{{ mealplan.description|truncatechars:100 }}</p>
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>You have not created any meal plans yet.</p>
+    <a href="{% url 'new_post' %}" class="btn btn-primary">Create a Meal Plan</a>
+{% endif %}
+{% endblock %}
