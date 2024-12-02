@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 
-from NutriPage.users.choises import ProfileRoleChoices
+from NutriPage.users.choises import ProfileRoleChoices, AdminRoleChoices
 from NutriPage.users.managers import AppUserManager
 
 CustomUser = get_user_model()
@@ -23,3 +23,13 @@ class Profile(models.Model):
 
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+class Role(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    role = models.CharField(
+        max_length=20,
+        choices=AdminRoleChoices.choices
+    )
+
+    def __str__(self):
+        return f"{self.user.username} - {self.role}"
