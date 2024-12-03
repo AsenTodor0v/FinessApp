@@ -6,86 +6,87 @@
     <h2>Welcome to the Meal Plans</h2>
     <p>Browse through a selection of meal plans created by certified nutritionists and fitness coaches.</p>
 
-<!-- Search Form -->
-<form method="get" action="{% url 'homepage' %}" class="mb-4">
-    <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search meal plans..." value="{{ request.GET.q }}">
-        <button class="btn btn-primary" type="submit">Search</button>
-    </div>
-</form>
+{% if user.is_authenticated %}
+    <!-- Search Form -->
+    <form method="get" action="{% url 'homepage' %}" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search meal plans..." value="{{ request.GET.q }}">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
 
-<!-- Meal Plan Cards -->
-    <div class="row">
-        {% for mealplan in mealplans %}
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    {% if mealplan.picture %}
-                        <img src="{{ mealplan.picture.url }}" class="card-img-top fixed-image" alt="{{ mealplan.title }}">
-                    {% else %}
-                        <img src="{% static 'images/no-image.jpg' %}" class="card-img-top fixed-image" alt="No Image Available">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ mealplan.title }}</h5>
-                        <p class="card-text">{{ mealplan.description|truncatewords:20 }}</p>
-                        <a href="{% url 'details-meal' pk=mealplan.pk %}" class="btn btn-primary">View Details</a>
-                    </div>
-                    <div class="card-footer text-muted">
-                        Created by: {{ mealplan.author.user.username }}
+    <!-- Meal Plan Cards -->
+        <div class="row">
+            {% for mealplan in mealplans %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        {% if mealplan.picture %}
+                            <img src="{{ mealplan.picture.url }}" class="card-img-top fixed-image" alt="{{ mealplan.title }}">
+                        {% else %}
+                            <img src="{% static 'images/no-image.jpg' %}" class="card-img-top fixed-image" alt="No Image Available">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ mealplan.title }}</h5>
+                            <p class="card-text">{{ mealplan.description|truncatewords:20 }}</p>
+                            <a href="{% url 'details-meal' pk=mealplan.pk %}" class="btn btn-primary">View Details</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Created by: {{ mealplan.author.user.username }}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% empty %}
-            <p>No meal plans available at the moment.</p>
-        {% endfor %}
-    </div>
+            {% empty %}
+                <p>No meal plans available at the moment.</p>
+            {% endfor %}
+        </div>
 
-    <!-- Pagination Section -->
-    <div class="d-flex justify-content-center mt-4">
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1" aria-label="First">
-                            <span aria-hidden="true">&laquo;&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
-                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
-                {% endif %}
-
-                {% for num in page_obj.paginator.page_range %}
-                    {% if page_obj.number == num %}
-                        <li class="page-item active" aria-current="page">
-                            <span class="page-link">{{ num }}</span>
+        <!-- Pagination Section -->
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="First">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                            </a>
                         </li>
-                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
+                        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
                     {% endif %}
-                {% endfor %}
 
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-                            <span aria-hidden="true">&raquo;&raquo;</span>
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
-                    <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
 
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                <span aria-hidden="true">&raquo;&raquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                        <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+{% endif %}
 {% endblock %}
