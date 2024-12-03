@@ -1,11 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import ValidationError
-from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, get_object_or_404, render
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView
 
 from NutriPage.meals.forms import MealsCreateForm, MealsEditForm, CommentForm
-from NutriPage.meals.models import MealPlan
+from NutriPage.meals.models import MealPlan, SavedMeals
 
 
 # Create your views here.
@@ -84,3 +86,31 @@ class DeleteMealsView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         mealplan = self.get_object()
         return self.request.user.profile == mealplan.author
+
+@login_required
+def save_mealplan(request, pk):
+    mealplan = get_object_or_404(MealPlan, pk=pk)
+    profile = request.user.profile  # Access the Profile instance
+    SavedMeals.objects.get_or_create(user=profile, mealplan=mealplan)
+    return redirect(reverse('details-meal', kwargs={'pk': mealplan.pk}))
+
+@login_required
+def saved_mealplans(request):
+    """List all meal plans saved by the logged-in user."""
+    saved = SavedMeals.objects.filter(user=request.user.profile).select_related('mealplan')
+    return render(request, 'meals/saved_mealplans.html', {'saved_mealplans': saved})
+
+
+@login_required
+def unsave_mealplan(request, pk):
+    # Get the MealPlan object
+    mealplan = get_object_or_404(MealPlan, pk=pk)
+
+    # Get or 404 the SavedMeals object for the logged-in user and this meal plan
+    saved_meal = get_object_or_404(SavedMeals, user=request.user.profile, mealplan=mealplan)
+
+    # Delete the saved meal plan entry
+    saved_meal.delete()
+
+    # Redirect to the page where saved meal plans are listed
+    return redirect('saved_mealplans')
