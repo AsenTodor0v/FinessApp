@@ -32,6 +32,8 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'create-meal' %}">Create Meal Plan</a></li>
+                        <!-- Add the link to Saved Meals -->
+                        <li class="nav-item"><a class="nav-link" href="{% url 'saved_mealplans' %}">Saved Meals</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout-profile' %}">Logout</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'login-profile' %}">Login</a></li>
