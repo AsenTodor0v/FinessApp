@@ -1,15 +1,15 @@
+from django.contrib import messages
 from django.contrib.auth import logout, login, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, DetailView, ListView
+from django.views.generic import UpdateView, DetailView
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
-from NutriPage.meals.models import MealPlan
-from NutriPage.users.forms import DetailUserForm, EditUserForm, DeleteProfileForm, ProfileForm, RegisterForm
+from NutriPage.users.forms import  EditUserForm, DeleteProfileForm, ProfileForm, RegisterForm
 from NutriPage.users.models import Profile
 from NutriPage.users.serializers import ProfileSerializer
 
@@ -35,15 +35,23 @@ def logout_view(request):
     logout(request)
     return redirect('homepage')
 
-class ProfileLoginView(UserPassesTestMixin, LoginView):
+class ProfileLoginView(LoginView):
     template_name = 'logout/login_page.html'
     success_url = reverse_lazy('homepage')
 
     def test_func(self):
+        # Ensure that the user is not already authenticated
         return not self.request.user.is_authenticated
 
     def handle_no_permission(self):
+        # Redirect to homepage if the user is already authenticated
         return redirect('homepage')
+
+    # Override form_invalid method only to handle additional processing (optional)
+    def form_invalid(self, form):
+        # This is where you handle the error messages manually
+        messages.error(self.request, 'Invalid username or password')
+        return super().form_invalid(form)
 
 def register(request):
     if request.method == "POST":

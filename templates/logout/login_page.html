@@ -1,10 +1,45 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock %}
 {% block content %}
-<h2>Login</h2>
-<form method="POST" action="{% url 'login-profile' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-lg p-4 border-0 rounded-4" style="max-width: 400px; width: 100%;">
+        <h2 class="text-center mb-4 text-primary">Welcome Back</h2>
+        <p class="text-center text-muted mb-4">Please login to your account</p>
+
+        <!-- Display Error Messages -->
+        {% if messages %}
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'login-profile' %}" class="needs-validation" novalidate>
+            {% csrf_token %}
+
+            <!-- Username Field -->
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Username</label>
+                <input type="text" name="username" class="form-control shadow-sm" id="id_username" required>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+                <label for="id_password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control shadow-sm" id="id_password" required>
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit" class="btn btn-primary w-100 mt-2 py-2 shadow-sm">Login</button>
+
+            <!-- Register Link -->
+            <div class="text-center mt-3">
+                <p class="mb-0">Don't have an account? <a href="{% url 'register' %}" class="text-decoration-none text-primary">Sign Up</a></p>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
