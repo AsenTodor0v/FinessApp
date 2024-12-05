@@ -1,13 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import ValidationError
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView
-
+from rest_framework import generics
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
+import httpx
 from NutriPage.meals.forms import MealsCreateForm, MealsEditForm, CommentForm
-from NutriPage.meals.models import MealPlan, SavedMeals
+from NutriPage.meals.models import MealPlan, SavedMeals, Comment
+from NutriPage.meals.serializers import MealPlanSerializer, CommentSerializer
 
 
 # Create your views here.
@@ -100,7 +103,6 @@ def saved_mealplans(request):
     saved = SavedMeals.objects.filter(user=request.user.profile).select_related('mealplan')
     return render(request, 'meals/saved_mealplans.html', {'saved_mealplans': saved})
 
-
 @login_required
 def unsave_mealplan(request, pk):
     # Get the MealPlan object
@@ -114,3 +116,56 @@ def unsave_mealplan(request, pk):
 
     # Redirect to the page where saved meal plans are listed
     return redirect('saved_mealplans')
+
+
+async def get_external_data():
+    async with httpx.AsyncClient() as client:
+        response = await client.get('https://externalapi.com/nutrition')
+        return response.json()
+
+class MealPlanListView(generics.ListCreateAPIView):
+    queryset = MealPlan.objects.all()
+    serializer_class = MealPlanSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        Return the queryset of MealPlans. This is synchronous, which works well with Django ORM.
+        """
+        return MealPlan.objects.all()
+
+    def perform_create(self, serializer):
+        """
+        Create a new MealPlan instance and ensure it's saved correctly.
+        """
+        # Debug: Print data to check if it's valid
+        print("Validated Data:", serializer.validated_data)
+
+        # Save the instance synchronously
+        meal_plan = serializer.save()
+
+        # Debug: Print the created instance to check if it's saved
+        print("Meal Plan Created:", meal_plan)
+        return meal_plan
+
+class CommentListView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        """
+        Custom method to save the comment with the authenticated user.
+        """
+        # Automatically assign the authenticated user to the comment
+        serializer.save(user=self.request.user)
+
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+class MealPlanDetailView(RetrieveAPIView):
+    queryset = MealPlan.objects.all()
+    serializer_class = MealPlanSerializer
+    permission_classes = [IsAuthenticated]

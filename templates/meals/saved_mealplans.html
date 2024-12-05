@@ -10,7 +10,7 @@
         {% for saved in saved_mealplans %}
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
-                <img src="{{ saved.mealplan.picture.url }}" class="card-img-top" alt="Meal Plan Image" style="height: 200px; object-fit: cover;">
+                <img src="{{ mealplan.picture.url }}" class="card-img-top" alt="Meal Plan Image" style="height: 200px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title">{{ saved.mealplan.title }}</h5>
                     <p class="card-text">{{ saved.mealplan.description|truncatewords:20 }}</p>
