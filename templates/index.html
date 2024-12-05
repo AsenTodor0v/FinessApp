@@ -30,9 +30,11 @@
                             <p class="card-text">{{ mealplan.description|truncatewords:20 }}</p>
                             <a href="{% url 'details-meal' pk=mealplan.pk %}" class="btn btn-primary">View Details</a>
                         </div>
-                        <div class="card-footer text-muted">
-                            Created by: {{ mealplan.author.user.username }}
-                        </div>
+                        {% if mealplan.author.user.username %}
+                            <div class="card-footer text-muted">
+                                Created by: {{ mealplan.author.user.username }}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             {% empty %}

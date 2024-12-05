@@ -12,4 +12,9 @@ urlpatterns = [
     path('post/<int:pk>/save/', views.save_mealplan, name='save_mealplan'),
     path('saved-mealplans/', views.saved_mealplans, name='saved_mealplans'),
     path('post/<int:pk>/unsave/', views.unsave_mealplan, name='unsave_mealplan'),
+    path('api/mealplans/', views.MealPlanListView.as_view(), name='api-mealplan-list'),
+    path('api/mealplans/<int:pk>/', views.MealPlanDetailView.as_view(), name='api-mealplan-detail'),
+    path('api/comments/', views.CommentListView.as_view(), name='api-comment-list'),
+    path('api/comments/<int:pk>/', views.CommentDetailView.as_view(), name='api-comment-detail'),
+
 ]

@@ -42,10 +42,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework.authtoken',
     'NutriPage.users',
     'NutriPage.homepage',
     'NutriPage.meals'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',  # For browser sessions
+        'rest_framework.authentication.BasicAuthentication',  # For basic auth (optional)
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -110,6 +118,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'NutriPage.users.validators.CustomPasswordValidator',  # Use your custom validator
     },
 ]
 

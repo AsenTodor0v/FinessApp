@@ -12,7 +12,7 @@ class MealPlan(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     ingredients = models.TextField(help_text="List the ingredients of the recipe separated by commas.")
     steps = models.TextField(help_text="List the preparation steps of the recipe.")
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True)
 
     def get_ingredient_list(self):
         """Return a list of ingredients split by commas."""

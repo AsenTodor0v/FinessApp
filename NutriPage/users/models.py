@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 
 from NutriPage.users.choises import ProfileRoleChoices, AdminRoleChoices
-from NutriPage.users.managers import AppUserManager
+
 
 CustomUser = get_user_model()
 

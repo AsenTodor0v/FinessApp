@@ -5,10 +5,13 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, DetailView, ListView
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 from NutriPage.meals.models import MealPlan
-from NutriPage.users.forms import DetailUserForm, EditUserForm, DeleteProfileForm, ProfileForm
+from NutriPage.users.forms import DetailUserForm, EditUserForm, DeleteProfileForm, ProfileForm, RegisterForm
 from NutriPage.users.models import Profile
+from NutriPage.users.serializers import ProfileSerializer
 
 UserModel = get_user_model()
 
@@ -44,7 +47,7 @@ class ProfileLoginView(UserPassesTestMixin, LoginView):
 
 def register(request):
     if request.method == "POST":
-        form = ProfileForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
@@ -52,9 +55,6 @@ def register(request):
     else:
         form = ProfileForm()
     return render(request, 'logout/create-profile.html', {'form': form})
-
-
-# not sure!!!
 
 @login_required
 def delete_author_page(request):
@@ -71,3 +71,8 @@ def delete_author_page(request):
     }
 
     return render(request, 'logged/delete_profile.html', context)
+
+class ApiProfileView(generics.RetrieveAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]

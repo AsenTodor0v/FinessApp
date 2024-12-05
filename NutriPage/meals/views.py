@@ -5,9 +5,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView
+from rest_framework import generics
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from NutriPage.meals.forms import MealsCreateForm, MealsEditForm, CommentForm
-from NutriPage.meals.models import MealPlan, SavedMeals
+from NutriPage.meals.models import MealPlan, SavedMeals, Comment
+from NutriPage.meals.serializers import MealPlanSerializer, CommentSerializer
 
 
 # Create your views here.
@@ -100,7 +104,6 @@ def saved_mealplans(request):
     saved = SavedMeals.objects.filter(user=request.user.profile).select_related('mealplan')
     return render(request, 'meals/saved_mealplans.html', {'saved_mealplans': saved})
 
-
 @login_required
 def unsave_mealplan(request, pk):
     # Get the MealPlan object
@@ -114,3 +117,23 @@ def unsave_mealplan(request, pk):
 
     # Redirect to the page where saved meal plans are listed
     return redirect('saved_mealplans')
+
+class MealPlanListView(generics.ListCreateAPIView):
+    queryset = MealPlan.objects.all()
+    serializer_class = MealPlanSerializer
+    permission_classes = [IsAuthenticated]
+
+class CommentListView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+class MealPlanDetailView(RetrieveAPIView):
+    queryset = MealPlan.objects.all()
+    serializer_class = MealPlanSerializer
+    permission_classes = [IsAuthenticated]
