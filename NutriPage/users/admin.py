@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from NutriPage.users.models import CustomUser, Profile
-
-
+from NutriPage.users.models import Role, Profile
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -10,5 +8,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 
-
+@admin.register(Role)
+class RoleAdmin(admin.ModelAdmin):
+    list_display = ('user', 'role')
 

@@ -17,7 +17,6 @@ class MealsDeleteForm(forms.ModelForm):
         model = MealPlan
         fields = '__all__'
 
-
 class MealsEditForm(forms.ModelForm):
     class Meta:
         model = MealPlan
