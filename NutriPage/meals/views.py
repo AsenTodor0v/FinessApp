@@ -46,6 +46,7 @@ class UserMealsView(ListView):
     model = MealPlan
     template_name = 'meals/user_meals.html'
     context_object_name = 'mealplans'
+    paginate_by = 6
 
     def get_queryset(self):
         queryset = super().get_queryset()
