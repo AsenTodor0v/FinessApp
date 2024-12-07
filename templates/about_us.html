@@ -1,22 +1,46 @@
-{% extends "base.html" %}
-{% block title %}About Us{% endblock %}
+{% extends 'base.html' %}
+
 {% block content %}
-<h2>About Us</h2>
-<p>Welcome to our Fitness App! We are dedicated to helping you achieve your fitness goals by providing expert nutrition and meal plans designed by certified nutritionists and fitness coaches.</p>
+  <div class="container mt-5">
+    <h1 class="text-center mb-5 text-primary font-weight-bold" style="font-size: 3rem;">About Us</h1>
 
-<p>Our platform connects you with certified professionals who can help you craft a personalized meal plan, guide you through your fitness journey, and answer all your questions about health and wellness. Whether you're trying to lose weight, build muscle, or maintain a healthy lifestyle, we have a plan for you!</p>
+    <!-- Mission Statement Section -->
+    <div class="row mb-5 justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="card shadow-lg border-0 rounded-lg">
+          <div class="card-header bg-info text-white">
+            <h2 class="card-title text-center" style="font-size: 2rem;">Our Mission</h2>
+          </div>
+          <div class="card-body">
+            <p class="card-text" style="font-size: 1.2rem; line-height: 1.6;">
+              {{ mission_statement.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<h3>Our Mission</h3>
-<p>Our mission is to make healthy living more accessible to everyone by providing expert advice, personalized meal plans, and a supportive community.</p>
+    <!-- Contact Information Section -->
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="card shadow-lg border-0 rounded-lg">
+          <div class="card-header bg-success text-white">
+            <h2 class="card-title text-center" style="font-size: 2rem;">Contact Information</h2>
+          </div>
+          <div class="card-body">
+            <ul class="list-group">
+              {% for contact in contact_info %}
+                <li class="list-group-item border-0 mb-3 d-flex justify-content-between align-items-center">
+                  <span class="font-weight-bold" style="font-size: 1.1rem;">{{ contact.contact_type }}:</span>
+                  <span class="text-muted" style="font-size: 1.1rem;">{{ contact.details }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<h3>Why Choose Us?</h3>
-<ul>
-    <li>Personalized meal plans tailored to your goals.</li>
-    <li>Expert guidance from certified nutritionists and fitness coaches.</li>
-    <li>Easy-to-use platform with helpful resources.</li>
-    <li>Track your progress and get support every step of the way.</li>
-</ul>
+  </div>
 
-<h3>Join Us Today!</h3>
-<p>Ready to take the next step in your fitness journey? Sign up today and start your journey towards a healthier, happier you!</p>
 {% endblock %}

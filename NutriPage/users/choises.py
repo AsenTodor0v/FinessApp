@@ -1,10 +1,11 @@
 from django.db import models
 
 class ProfileRoleChoices(models.TextChoices):
-    NUTRITIONIST = 'Nutritionist', 'Nutritionist'
-    COUCH = 'Couch', 'Couch'
     USER = 'User', 'User'
+    NUTRITIONIST = 'Nutritionist', 'Nutritionist'
+    COACH = 'Coach', 'Coach'
 
 class AdminRoleChoices(models.TextChoices):
-    STAFF = 'Staff', 'Staff'
-    SUPERUSER = 'Superuser', 'Superuser'
+    MODERATOR = 'Moderator', 'Moderator'  # Can manage users and moderate content
+    STAFF = 'Staff', 'Staff'  # For staff-level admin privileges
+    SUPERUSER = 'Superuser', 'Superuser' # Superusers with full system control

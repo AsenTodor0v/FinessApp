@@ -4,14 +4,17 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView
+from django.db.models import Q
+
 from rest_framework import generics
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
+
 import httpx
+
 from NutriPage.meals.forms import MealsCreateForm, MealsEditForm, CommentForm
 from NutriPage.meals.models import MealPlan, SavedMeals, Comment
 from NutriPage.meals.serializers import MealPlanSerializer, CommentSerializer
-
 
 # Create your views here.
 
@@ -43,6 +46,17 @@ class UserMealsView(ListView):
     model = MealPlan
     template_name = 'meals/user_meals.html'
     context_object_name = 'mealplans'
+    paginate_by = 6
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(description__icontains=query)
+            )
+        return queryset
 
 class DetailMealView(DetailView):
     model = MealPlan

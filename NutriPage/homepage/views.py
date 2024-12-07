@@ -1,5 +1,7 @@
 from django.db.models import Q
 from django.views.generic import ListView, TemplateView
+
+from NutriPage.homepage.models import MissionStatement, ContactInformation
 from NutriPage.meals.models import MealPlan
 
 
@@ -23,3 +25,15 @@ class HomepageView(ListView):
 
 class AboutUsView(TemplateView):
     template_name = 'about_us.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mission_statement'] = MissionStatement.objects.first()  # Get the first mission statement
+        context['contact_info'] = ContactInformation.objects.all()  # Get all contact info records
+        return context
+
+class ContactInformationView(ListView):
+    model = ContactInformation
+    template_name = 'about_us.html'  # Specify your template
+    context_object_name = 'contact_info'  # The variable name in the template
+    queryset = ContactInformation.objects.all()  # Fetch all contact info records
