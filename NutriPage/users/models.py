@@ -1,7 +1,4 @@
-from idlelib.query import CustomRun
-
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 
 from NutriPage.users.choises import ProfileRoleChoices, AdminRoleChoices

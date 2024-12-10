@@ -2,8 +2,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-import re
-from NutriPage.users.models import Profile, CustomUser
+
+from NutriPage.users.models import Profile
 
 UserModel = get_user_model()
 
