@@ -1,38 +1,36 @@
+/* Ensure all card bodies are the same height */
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;  /* This makes the card body take all available space */
+}
+
+/* Optional: Ensures consistent card width */
+.card {
+    width: 100%;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;  /* Fixed image height */
+}
+
 .card-title {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    color: #333;
 }
 
 .card-text {
     font-size: 1rem;
-    color: #555;
 }
 
-.card-img-top {
-    border-bottom: 1px solid #ddd;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-
-.card-body {
-    padding: 20px;
-}
-
-.card {
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Ensures buttons are aligned properly */
+.btn {
+    margin-top: auto;
 }
