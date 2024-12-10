@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView
@@ -64,14 +65,9 @@ class DetailMealView(DetailView):
     context_object_name = 'mealplan'
 
     def get_context_data(self, **kwargs):
-        # Fetch the default context
         context = super().get_context_data(**kwargs)
-
-        # Add the comment form to the context
         context['form'] = CommentForm()
-
-        # Preprocess ingredients and steps for the template
-        mealplan = self.get_object()  # Get the current MealPlan object
+        mealplan = self.get_object()
 
         # Split the ingredients and steps and remove any empty strings
         context['ingredients'] = [ingredient.strip() for ingredient in mealplan.ingredients.split(',') if ingredient.strip()] if mealplan.ingredients else []
@@ -114,20 +110,21 @@ def save_mealplan(request, pk):
 @login_required
 def saved_mealplans(request):
     saved = SavedMeals.objects.filter(user=request.user.profile).select_related('mealplan')
-    return render(request, 'meals/saved_mealplans.html', {'saved_mealplans': saved})
+    paginator = Paginator(saved, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'meals/saved_mealplans.html', {'saved_mealplans': page_obj})
 
 @login_required
 def unsave_mealplan(request, pk):
-    # Get the MealPlan object
     mealplan = get_object_or_404(MealPlan, pk=pk)
 
     # Get or 404 the SavedMeals object for the logged-in user and this meal plan
     saved_meal = get_object_or_404(SavedMeals, user=request.user.profile, mealplan=mealplan)
 
-    # Delete the saved meal plan entry
     saved_meal.delete()
 
-    # Redirect to the page where saved meal plans are listed
     return redirect('saved_mealplans')
 
 
@@ -148,9 +145,7 @@ class MealPlanListView(generics.ListCreateAPIView):
         """
         Create a new MealPlan instance and ensure it's saved correctly.
         """
-        # Debug: Print data to check if it's valid
         print("Validated Data:", serializer.validated_data)
-
 
         meal_plan = serializer.save()
 
