@@ -40,16 +40,12 @@ class ProfileLoginView(LoginView):
     success_url = reverse_lazy('homepage')
 
     def test_func(self):
-        # Ensure that the user is not already authenticated
         return not self.request.user.is_authenticated
 
     def handle_no_permission(self):
-        # Redirect to homepage if the user is already authenticated
         return redirect('homepage')
 
-    # Override form_invalid method only to handle additional processing (optional)
     def form_invalid(self, form):
-        # This is where you handle the error messages manually
         messages.error(self.request, 'Invalid username or password')
         return super().form_invalid(form)
 

@@ -113,7 +113,6 @@ def save_mealplan(request, pk):
 
 @login_required
 def saved_mealplans(request):
-    """List all meal plans saved by the logged-in user."""
     saved = SavedMeals.objects.filter(user=request.user.profile).select_related('mealplan')
     return render(request, 'meals/saved_mealplans.html', {'saved_mealplans': saved})
 
@@ -143,9 +142,6 @@ class MealPlanListView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        """
-        Return the queryset of MealPlans. This is synchronous, which works well with Django ORM.
-        """
         return MealPlan.objects.all()
 
     def perform_create(self, serializer):
@@ -155,10 +151,9 @@ class MealPlanListView(generics.ListCreateAPIView):
         # Debug: Print data to check if it's valid
         print("Validated Data:", serializer.validated_data)
 
-        # Save the instance synchronously
+
         meal_plan = serializer.save()
 
-        # Debug: Print the created instance to check if it's saved
         print("Meal Plan Created:", meal_plan)
         return meal_plan
 
