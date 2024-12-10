@@ -1,0 +1,13 @@
+.card-bodyy {
+    max-height: 200px; /* Set the maximum height for the card body */
+    overflow: hidden;  /* Hide text that overflows */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-textt {
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds "..." at the end of the truncated text */
+    white-space: nowrap; /* Prevents the text from wrapping to the next line */
+    margin-bottom: 20px;  /* Optional, for spacing */
+}

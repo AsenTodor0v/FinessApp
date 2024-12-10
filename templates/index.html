@@ -27,7 +27,7 @@
                     {% endif %}
                     <div class="card-bodyy">
                         <h5 class="card-title">{{ mealplan.title }}</h5>
-                        <p class="card-textt">{{ mealplan.description|truncatewords:30 }}</p> <!-- Truncate to 30 words -->
+                        <p class="card-textt">{{ mealplan.description|truncatechars:30 }}</p> <!-- Truncate to 30 words -->
                         <a href="{% url 'details-meal' pk=mealplan.pk %}" class="btn btn-primary">View Details</a>
                     </div>
                 </div>
