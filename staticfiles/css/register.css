@@ -1,0 +1,12 @@
+/* Custom styling for input fields */
+input.form-control {
+    background-color: #f8f9fa;  /* Light background */
+    color: #495057; /* Dark text color */
+}
+
+/* Focused input fields */
+input.form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}

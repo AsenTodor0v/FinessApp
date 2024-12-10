@@ -1,0 +1,13 @@
+/* Remove numbers from ordered list items */
+.list-group-numbered {
+    list-style-type: none;  /* Removes the default list numbers */
+    counter-reset: step-counter; /* Reset the counter */
+}
+
+.list-group-numbered li {
+    counter-increment: step-counter;  /* Increment the counter for each step */
+}
+
+.list-group-numbered li::before {
+    content: '';  /* Hide the numbers */
+}
