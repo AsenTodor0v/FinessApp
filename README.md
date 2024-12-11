@@ -1,4 +1,5 @@
 deploy : https://fitnessapp-gmfcesbhhmgdg8gh.italynorth-01.azurewebsites.net/
+
 Fitness Meal Plan App
 
 A web application where certified nutritionists and fitness coaches can upload, manage, and share meal plans. The app includes public and private sections, user authentication, and an admin panel for managing content.
