@@ -1,10 +1,10 @@
 deploy : https://fitnessapp-gmfcesbhhmgdg8gh.italynorth-01.azurewebsites.net/
 
-Fitness Meal Plan App
+### Fitness Meal Plan App
 
 A web application where certified nutritionists and fitness coaches can upload, manage, and share meal plans. The app includes public and private sections, user authentication, and an admin panel for managing content.
 
-Features
+### 1. Features
 
 Authentication: Login, register, and logout functionality.
 
@@ -20,7 +20,7 @@ Secure: Protects against SQL injection, CSRF, and XSS vulnerabilities.
 
 Custom Roles: Different permissions for staff and superusers.
 
-Technologies Used
+### 2. Technologies Used
 
 Backend: Django (Python Framework)
 
@@ -30,7 +30,7 @@ Database: PostgreSQL (or any database of your choice)
 
 Environment Management: .env for storing sensitive data securely
 
-Setup Instructions
+### 3. Setup Instructions
 
 Prerequisites
 
@@ -40,48 +40,56 @@ Virtual Environment (optional but recommended)
 
 PostgreSQL (or your preferred database)
 
-Installation Steps
+### 4. Installation Steps
 
 Clone the Repository
-
-git clone https://github.com/AsenTodor0v/FinessApp.git
-cd FinessApp
-
-Set Up a Virtual Environment
-
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-
-Install Dependencies
-
-pip install -r requirements.txt
-
-Set Up the Environment Variables
-
-Rename .env.template to .env:
-
-mv .env.template .env
-
-Edit the .env file and update it with your environment-specific settings (e.g., database credentials).
-
-Example:
-
-DEBUG=True
-SECRET_KEY=your_secret_key_here
-
-Apply Migrations
-
-python manage.py makemigrations
-python manage.py migrate
-
-Create a Superuser
-
-python manage.py createsuperuser
-
-Run the Development Server
-
-python manage.py runserver
-
-Access the App
-
-Visit http://127.0.0.1:8000 in your browser.
+  ```terminal
+      git clone https://github.com/AsenTodor0v/FinessApp.git
+    '''
+    '''terminal
+    '''terminal
+    cd FinessApp
+    '''
+    
+    ### Set Up a Virtual Environment
+    '''terminal
+    python -m venv venv
+    '''
+'''terminal
+    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    '''
+   ### Install Dependencies
+    '''terminal
+    pip install -r requirements.txt
+      '''
+    ### Set Up the Environment Variables
+    
+    ### Rename .env.template to .env:
+    '''terminal
+    mv .env.template .env
+    '''
+    ### Edit the .env file and update it with your environment-specific settings (e.g., database credentials).
+    
+    Example:
+    '''terminal
+    DEBUG=True
+    SECRET_KEY=your_secret_key_here
+    '''
+    ### Apply Migrations
+    '''terminal
+    python manage.py makemigrations
+    '''
+  '''terminal
+    python manage.py migrate
+    '''
+   ### Create a Superuser
+    '''terminal
+    python manage.py createsuperuser
+    '''
+   ###  Run the Development Server
+    '''terminal
+    python manage.py runserver
+    '''
+    ### Access the App
+    
+    ### Visit http://127.0.0.1:8000 in your browser.
