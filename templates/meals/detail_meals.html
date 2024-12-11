@@ -5,7 +5,7 @@
 <div class="container mt-4">
     <!-- Meal Plan Title -->
     <h1 class="display-4">{{ mealplan.title }}</h1>
-
+{% if user.is_authenticated %}
     <!-- Edit and Delete buttons (if the user is the author) -->
     {% if user.profile == mealplan.author %}
         <div class="mt-3">
@@ -24,9 +24,9 @@
             <a href="{% url 'save_mealplan' mealplan.pk %}" class="btn btn-outline-secondary">Save this Meal Plan</a>
         {% endif %}
     {% else %}
-        <a href="{% url 'login' %}" class="btn btn-primary">Login to Save</a>
+        <a href="{% url 'login-profile' %}" class="btn btn-primary">Login to Save</a>
     {% endif %}
-
+{% endif %}
     <!-- Meal Plan Image -->
     <div class="my-4">
         {% if mealplan.picture %}
@@ -102,7 +102,7 @@
     {% endif %}
 
     <hr>
-
+{% if user.is_authenticated %}
     <!-- Comment Form -->
     <h4>Leave a Comment</h4>
     <form method="POST">
@@ -114,6 +114,7 @@
         <br>
         <button type="submit" class="btn btn-primary">Submit Comment</button>
     </form>
+{% endif %}
 </div>
 
 {% endblock %}

@@ -6,7 +6,7 @@
 <h2>Welcome to the Meal Plans</h2>
 <p>Browse through a selection of meal plans created by certified nutritionists and fitness coaches.</p>
 
-{% if user.is_authenticated %}
+
     <!-- Search Form -->
     <form method="get" action="{% url 'homepage' %}" class="mb-4">
         <div class="input-group">
@@ -86,5 +86,5 @@
         </nav>
     </div>
 
-{% endif %}
+
 {% endblock %}

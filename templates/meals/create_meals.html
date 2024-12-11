@@ -2,61 +2,66 @@
 {% block title %}Create a New Meal{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1 class="display-4">Create a New Meal</h1>
-    <p class="lead">Fill out the details below to create a new meal plan.</p>
-    <hr>
+{% if user.is_authenticated %}
+    <div class="container mt-4">
+        <h1 class="display-4">Create a New Meal</h1>
+        <p class="lead">Fill out the details below to create a new meal plan.</p>
+        <hr>
 
-    <!-- Display form errors -->
-    {% if form.errors %}
-        <div class="alert alert-danger">
-            <strong>There were errors with your submission:</strong>
-            <ul>
-                {% for field, errors in form.errors.items %}
-                    <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
+        <!-- Display form errors -->
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>There were errors with your submission:</strong>
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
-    <!-- Meal Creation Form -->
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+        <!-- Meal Creation Form -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
 
-        <!-- Title Field -->
-        <div class="form-group">
-            <label for="id_title">Title</label>
-            <input type="text" name="title" id="id_title" class="form-control" placeholder="Enter the meal title" value="{{ form.title.value|default_if_none:'' }}">
-        </div>
+            <!-- Title Field -->
+            <div class="form-group">
+                <label for="id_title">Title</label>
+                <input type="text" name="title" id="id_title" class="form-control" placeholder="Enter the meal title" value="{{ form.title.value|default_if_none:'' }}">
+            </div>
 
-        <!-- Description Field -->
-        <div class="form-group">
-            <label for="id_description">Description</label>
-            <textarea name="description" id="id_description" class="form-control" rows="3" placeholder="Provide a short description">{{ form.description.value|default_if_none:'' }}</textarea>
-        </div>
+            <!-- Description Field -->
+            <div class="form-group">
+                <label for="id_description">Description</label>
+                <textarea name="description" id="id_description" class="form-control" rows="3" placeholder="Provide a short description">{{ form.description.value|default_if_none:'' }}</textarea>
+            </div>
 
-        <!-- Ingredients Field -->
-        <div class="form-group">
-            <label for="id_ingredients">Ingredients</label>
-            <textarea name="ingredients" id="id_ingredients" class="form-control" rows="4" placeholder="List the ingredients separated by commas">{{ form.ingredients.value|default_if_none:'' }}</textarea>
-            <small class="form-text text-muted">Example: 1 cup flour, 2 eggs, 1/2 cup sugar</small>
-        </div>
+            <!-- Ingredients Field -->
+            <div class="form-group">
+                <label for="id_ingredients">Ingredients</label>
+                <textarea name="ingredients" id="id_ingredients" class="form-control" rows="4" placeholder="List the ingredients separated by commas">{{ form.ingredients.value|default_if_none:'' }}</textarea>
+                <small class="form-text text-muted">Example: 1 cup flour, 2 eggs, 1/2 cup sugar</small>
+            </div>
 
-        <!-- Steps Field -->
-        <div class="form-group">
-            <label for="id_steps">Preparation Steps</label>
-            <textarea name="steps" id="id_steps" class="form-control" rows="6" placeholder="Describe the preparation steps, one step per line">{{ form.steps.value|default_if_none:'' }}</textarea>
-            <small class="form-text text-muted">Use full sentences and describe each step clearly.</small>
-        </div>
+            <!-- Steps Field -->
+            <div class="form-group">
+                <label for="id_steps">Preparation Steps</label>
+                <textarea name="steps" id="id_steps" class="form-control" rows="6" placeholder="Describe the preparation steps, one step per line">{{ form.steps.value|default_if_none:'' }}</textarea>
+                <small class="form-text text-muted">Use full sentences and describe each step clearly.</small>
+            </div>
 
-        <!-- Picture Upload -->
-        <div class="form-group">
-            <label for="id_picture">Upload a Picture (optional)</label>
-            <input type="file" name="picture" id="id_picture" class="form-control-file">
-        </div>
+            <!-- Picture Upload -->
+            <div class="form-group">
+                <label for="id_picture">Upload a Picture (optional)</label>
+                <input type="file" name="picture" id="id_picture" class="form-control-file">
+            </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary mt-3">Create Meal</button>
-    </form>
-</div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary mt-3">Create Meal</button>
+        </form>
+    </div>
+{% else %}
+    <h1 class="display-4">Please log in to create a new meal plan.</h1>
+    <a href="{% url 'login-profile' %}" class="btn btn-primary mt-3">Login</a>
+{% endif %}
 {% endblock %}
