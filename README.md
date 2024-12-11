@@ -50,12 +50,12 @@ A web application where certified nutritionists and fitness coaches can upload, 
    Rename .env.template to .env:
    ```bash
    mv .env.template .env
-  - **Edit the .env file and update it with your environment-specific settings (e.g., database 
+  - Edit the .env file and update it with your environment-specific settings (e.g., database 
   credentials).
-  - **Example:
+  - Example:
    ```bash
-        DEBUG=True
-        SECRET_KEY=your_secret_key_here
+   DEBUG=True
+   SECRET_KEY=your_secret_key_here
    ```
 5. **Apply Migrations**
    ```bash
@@ -68,4 +68,4 @@ A web application where certified nutritionists and fitness coaches can upload, 
    ```bash
    python manage.py runserver
 8. Access the App
-  - **Visit http://127.0.0.1:8000 in your browser.
+  - Visit http://127.0.0.1:8000 in your browser.
