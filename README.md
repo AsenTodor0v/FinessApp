@@ -38,8 +38,8 @@ A web application where certified nutritionists and fitness coaches can upload, 
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/fitness-meal-plan-app.git
-   cd fitness-meal-plan-app
+   git clone https://github.com/AsenTodor0v/FitnessApp
+   cd FitnessApp
 2. **Set Up a Virtual Environment**
    ```bash
    python -m venv venv
